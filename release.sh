@@ -12,8 +12,6 @@ if [ -n "$(git status --porcelain . | grep -v /)" ]; then
   exit 1
 fi
 
-exit 0
-
 if [ -n "$(flake8 --max-line-length=160 --ignore=W503,W606,E226 library)" ]; then
   echo "There are flake8 issues; code style is bad";
   exit 1
@@ -25,6 +23,7 @@ if [ -z "${1}" ]; then
     exit 1
 fi
 version="${1}"
+exit 0
 printf "${version}" > library/version.txt
 sed "s/library==version/library==${version}/g" requirements_library.template > requirements_library.txt
 git add library/version.txt

@@ -1,4 +1,5 @@
 import requests
+from deepdiff import DeepDiff
 
 
 class IncorrectCodeError(Exception):

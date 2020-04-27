@@ -3,7 +3,6 @@ from datetime import datetime
 from ww import f
 
 
-
 class Request(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,4 +12,3 @@ class Request(db.Model):
 
     def __repr__(self):
         return f("User('{self.email}', '{self.title}', )")
-

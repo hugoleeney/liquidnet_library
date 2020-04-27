@@ -2,8 +2,8 @@ from library.verify_help import test_post_url, test_get_url
 import requests
 
 
-def subset(a, b, present = []):
-    subset = all((k in a and a[k]==v) for k,v in b.items())
+def subset(a, b, present=[]):
+    subset = all((k in a and a[k] == v) for k, v in b.items())
     present = all(key in a for key in present)
     return subset and present
 
@@ -18,7 +18,7 @@ assert r.status_code == requests.codes.bad
 
 
 # post a good request
-request1 = {"email":"good@email.com", "title": "good title"}
+request1 = {"email": "good@email.com", "title": "good title"}
 r = requests.post('http://localhost:5000/request', json=request1)
 assert r.status_code == requests.codes.ok
 response_json = r.json()
@@ -27,7 +27,7 @@ request1_id = response_json['id']
 
 
 # get a specific request
-test_get_url('http://localhost:5000/request/%s'%request1_id,
+test_get_url('http://localhost:5000/request/%s' % request1_id,
              code=requests.codes.ok, expected=response_json)
 
 
@@ -44,7 +44,7 @@ assert request1_id in [r['id'] for r in response_json]
 
 
 # delete the request just created
-r = requests.delete('http://localhost:5000/request/%s'%request1_id)
+r = requests.delete('http://localhost:5000/request/%s' % request1_id)
 assert r.status_code == requests.codes.no_content
 
 
@@ -56,5 +56,5 @@ assert request1_id not in [r['id'] for r in response_json]
 
 
 # delete a request that doesn't exist
-r = requests.delete('http://localhost:5000/request/%s'%request1_id)
+r = requests.delete('http://localhost:5000/request/%s' % request1_id)
 assert r.status_code == requests.codes.not_found
