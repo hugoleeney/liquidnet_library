@@ -1,0 +1,5 @@
+\.idea
+*.pyc
+trials
+__pycache__
+
