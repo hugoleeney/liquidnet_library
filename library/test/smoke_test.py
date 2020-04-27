@@ -1,5 +1,6 @@
-from library.verify_help import test_post_url, test_get_url
 import requests
+
+from library.test.test_help import test_post_url, test_get_url
 
 
 def subset(a, b, present=[]):
