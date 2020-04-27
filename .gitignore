@@ -2,4 +2,6 @@
 *.pyc
 trials
 __pycache__
+*.db
 
+.DS_Store
