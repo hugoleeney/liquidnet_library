@@ -1,4 +1,7 @@
-from flask import request, abort
+import datetime
+import json
+
+from flask import request, abort, Response, current_app
 
 from library import app, db
 from library.models import Request
@@ -11,6 +14,10 @@ def request_to_json(r):
         "title": r.title,
         "timestamp": r.timestamp
     }
+
+def myconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
 
 
 @app.route('/request', methods=['GET', 'POST'])
@@ -25,8 +32,10 @@ def request_route():
         db.session.commit()
         return request_to_json(r)
     else:
-        all_requests = Request.query.all()
-        return {"all_requests": [request_to_json(r) for r in all_requests]}
+        page = request.args.get('page', 1, type=int)
+        all_requests = Request.query.order_by(Request.timestamp.desc()).paginate(page=page, per_page=current_app.config['PAGINATION_PER_PAGE'])
+
+        return Response(json.dumps([request_to_json(r) for r in all_requests.items], default=myconverter),  mimetype='application/json')
 
 
 @app.route("/request/<int:request_id>", methods=['GET'])

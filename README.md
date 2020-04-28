@@ -33,7 +33,7 @@ To build the package run the following command.
 
 TBD
 
-Dockerfile builds is untested.
+Dockerfile is incomplete. 
 
 
 ## TODO
