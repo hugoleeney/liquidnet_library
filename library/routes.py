@@ -5,6 +5,7 @@ from flask import request, abort, Response, current_app
 
 from library import app, db
 from library.models import Request
+from email_validator import validate_email, EmailNotValidError
 
 
 def request_to_json(r):
@@ -26,8 +27,14 @@ def request_route():
         content = request.json
         if content is None:
             abort(400)
-        print(content)
-        r = Request(email=content['email'], title=content['title'])
+
+        try:
+            v = validate_email(content['email'])
+            email = v["email"]
+        except EmailNotValidError as e:
+            abort(Response(json.dumps({'error':str(e)}), status=400))
+
+        r = Request(email=email, title=content['title'])
         db.session.add(r)
         db.session.commit()
         return request_to_json(r)

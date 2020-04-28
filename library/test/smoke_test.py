@@ -1,7 +1,6 @@
 import requests
 
 
-
 # post a request with no json body
 from library.test.test_help import post_subset, get
 
@@ -12,6 +11,13 @@ assert r.status_code == requests.codes.bad
 # post a request with bad json
 r = requests.post('http://localhost:5000/request', data='{"data":"notgood}"')
 assert r.status_code == requests.codes.bad
+
+
+# post a request with bad email
+request0 = {"email": "@email.com", "title": "good title"}
+r = requests.post('http://localhost:5000/request', json=request0)
+assert r.status_code == requests.codes.bad
+assert r.json()['error'] == 'There must be something before the @-sign.'
 
 
 # post a good request
